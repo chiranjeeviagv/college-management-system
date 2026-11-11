@@ -1,0 +1,6 @@
+.env  
+node_modules/  
+target/  
+.next/  
+backend/node_modules/  
+frontend/node_modules/ 

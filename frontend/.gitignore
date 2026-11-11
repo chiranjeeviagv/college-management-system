@@ -1,0 +1,8 @@
+# Ignore all dependency folders anywhere in the workspace
+node_modules/
+.env
+
+# Ignore build outputs
+target/
+.next/
+dist/
