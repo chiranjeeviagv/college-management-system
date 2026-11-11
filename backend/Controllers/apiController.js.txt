@@ -1,0 +1,39 @@
+import { supabase } from '../config/dbSql.js';
+import mongoose from 'mongoose';
+
+// Definition of NoSQL schema for unstructured form data
+const contactSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  message: String,
+  createdAt: { type: Date, default: Date.now }
+});
+
+const ContactMessage = mongoose.model('ContactMessage', contactSchema);
+
+// 1. Relational SQL Operations: Fetch Departments
+export const getDepartments = async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from('departments')
+      .select('*');
+
+    if (error) throw error;
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(500).json({ error: 'SQL Database Error fetching departments: ' + error.message });
+  }
+};
+
+// 2. Non-Relational NoSQL Operations: Handle Contact Forms
+export const submitContactForm = async (req, res) => {
+  try {
+    const { name, email, message } = req.body;
+    const newMessage = new ContactMessage({ name, email, message });
+    await newMessage.save();
+    
+    res.status(201).json({ success: true, message: 'Message securely logged into Cloud NoSQL.' });
+  } catch (error) {
+    res.status(500).json({ error: 'NoSQL Database Error logging message: ' + error.message });
+  }
+};

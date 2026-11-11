@@ -1,0 +1,31 @@
+package com.institution.model.sql;
+
+import jakarta.persistence.*;
+import lombok.Data;
+
+@Entity
+@Table(name = "programs")
+@Data
+public class Program {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    private String title;
+    private String duration; // e.g., "4 Years"
+
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
+}
+
+package com.institution.repository.nosql;
+
+import com.institution.model.nosql.ContactMessage;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface ContactMessageRepository extends MongoRepository<ContactMessage, String> {
+    // Standard NoSQL Document operations are inherited automatically
+}

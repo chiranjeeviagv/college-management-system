@@ -1,0 +1,36 @@
+package com.institution.controller;
+
+import com.institution.model.sql.Department;
+import com.institution.model.nosql.ContactMessage;
+import com.institution.repository.sql.DepartmentRepository;
+import com.institution.repository.nosql.ContactMessageRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/v1")
+@CrossOrigin(origins = "*") // Allows your hosted frontend to communicate with this backend
+public class InstitutionController {
+
+    @Autowired
+    private DepartmentRepository departmentRepository;
+
+    @Autowired
+    private ContactMessageRepository contactMessageRepository;
+
+    // 1. Fetch academic data from SQL (Supabase)
+    @GetMapping("/departments")
+    public ResponseEntity<List<Department>> getAllDepartments() {
+        return ResponseEntity.ok(departmentRepository.findAll());
+    }
+
+    // 2. Save public inquiries into NoSQL (MongoDB Atlas)
+    @PostMapping("/contact")
+    public ResponseEntity<String> submitContactForm(@RequestBody ContactMessage message) {
+        contactMessageRepository.save(message);
+        return ResponseEntity.ok("Message securely logged in MongoDB Atlas!");
+    }
+}

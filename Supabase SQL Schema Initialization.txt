@@ -1,0 +1,24 @@
+-- 1. Create the Departments table
+CREATE TABLE departments (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    head_of_department VARCHAR(255) NOT NULL
+);
+
+-- 2. Create the Programs table with a Foreign Key relation
+CREATE TABLE programs (
+    id BIGSERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    duration VARCHAR(50) NOT NULL,
+    department_id BIGINT REFERENCES departments(id) ON DELETE CASCADE
+);
+
+-- 3. Insert mock data for your CV portfolio display
+INSERT INTO departments (name, head_of_department) VALUES 
+('Computer Science & Engineering', 'Dr. Alan Turing'),
+('Electrical & Electronics Engineering', 'Dr. Nikola Tesla');
+
+INSERT INTO programs (title, duration, department_id) VALUES 
+('B.Tech in Computer Science', '4 Years', 1),
+('M.Tech in Artificial Intelligence', '2 Years', 1),
+('B.Tech in Renewable Energy Systems', '4 Years', 2);
